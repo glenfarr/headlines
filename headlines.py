@@ -1,12 +1,33 @@
+import feedparser
+
 from flask import Flask
 
 app = Flask(__name__)
 
 
+RSS_FEEDS = {'bbc':"http://feeds.bbci.co.uk/news/world/rss.xml",
+             'cnn':"http://rss.cnn.com/rss/edition.rss",
+             'fox':"http://feeds.foxnews.com/foxnews/latest",
+             'iol':"http://www.iol.co.za/cmlink/1.640"
+            }
+
+
 @app.route('/')
-def get_news():
-    return """<h1>no news is good news!</h1>"""
+@app.route('/<publication>/')
+def get_news(publication='bbc'):
+    feed = feedparser.parse(RSS_FEEDS[publication])
+    first_article = feed['entries'][0]    
+    return f"""
+    <html>
+    <body>
+    <h1> Headlines </h1>
+    <b>{first_article.get('title')}</b> <br/>
+    <i>{first_article.get('published')}</i> <br/>
+    <p>{first_article.get('summary')}</p> <br/>
+    </body>
+    </html>
+    """
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port= 5000, debug=True)
