@@ -1,0 +1,11 @@
+body {
+  margin: 0%;
+  padding: 0%;
+}
+.center {
+  background-color: #FFE4E1;
+  margin-top: 10%;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding: 3%;
+}
